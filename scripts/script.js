@@ -28,6 +28,11 @@
 
 */
 
+// Функция проверки на число
+let isNumber = function(){
+    return !isNaN(parseFloat(n)) && isFinite(n)
+};
+
 let money,
     income = "дополнительный доход",
     addExpenses = "дополнительные расходы",
@@ -39,15 +44,34 @@ let money,
     amount1, amount2,
     statusIncome,
     accumulatedMonth,
-    expensesMonth,
-    targetMonth;
+    targetMonth,
+    expenses;
+
+// Проверка на число
+// 1-й вариант
+    /* let start = function(){
+    money = +prompt("Ваш месячный доход?", "100000");
+
+    while (isNaN(money) || money.trim() === '' || money === null){
+        money = prompt("Ваш месячный доход?", "100000");
+    }
+}; */
+// Более лаконичный вариант
+let start = function(){
+    money = prompt("Ваш месячный доход?", "100000");
+
+    while (!isNaN(money)){
+        money = prompt("Ваш месячный доход?", "100000");
+    }
+};
+
+start();
 
 // Создаю функцию, показывающую значение и тип переменной
 let showTypeOf = function(data){
     console.log(data, typeof(data));
 };
 
-money = +prompt("Ваш месячный доход?", "100000");
 addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую", "пример: Квартплата, проездной, кредит");
 deposit = confirm("Есть ли у Вас депозит в банке?");
 
@@ -57,18 +81,41 @@ showTypeOf(income);
 showTypeOf(deposit);
 
 // Расходы за месяц
+
+expenses = [];
+
 let getExpensesMonth = function(){
-    expenses1 = prompt("Введите обязательную статью расходов", "Оплата ЖКХ");
-    amount1 = +prompt("Во сколько это обойдется?", "3000");
-    expenses2 = prompt("Введите другую обязательную статью расходов", "Оплата ЖКХ");
-    amount2 = +prompt("Во сколько это обойдется?", "2000");
-    expensesMonth = amount1 + amount2;
-    return expensesMonth;
+    let sum = 0;
+    for (let i = 0; i < 2; i++){
+        expenses[i] = prompt("Введите обязательную статью расходов", "Оплата ЖКХ");
+        sum += +prompt("Во сколько это обойдется?", "3000");
+    }
+    console.log(expenses);
+    return sum;
 };
+
+/* let getExpensesMonth = function(){
+    let sum = 0;
+    for (let i = 0; i < 2; i++){
+        if (i === 0) {
+            expenses1 = prompt("Введите обязательную статью расходов", "Оплата ЖКХ");
+        } else if (i === 1) {
+            expenses2 = prompt("Введите другую обязательную статью расходов", "Оплата ЖКХ");
+        }
+
+        sum += +prompt("Во сколько это обойдется?", "3000");
+    }
+    console.log(sum);
+    return sum;
+}; */
+
+
+
+let expensesAmount = getExpensesMonth();
 
 // Накопления за месяц
 let getAccumulatedMonth = function(){
-    accumulatedMonth = money - expensesMonth;
+    accumulatedMonth = money - expensesAmount;
     return accumulatedMonth;
 };
 
@@ -78,7 +125,6 @@ let getTargetMonth = function(){
     return targetMonth;
 };
 
-getExpensesMonth();
 getAccumulatedMonth();
 getTargetMonth();
 
@@ -88,7 +134,7 @@ budgetDay = Math.ceil(accumulatedMonth / 30);
 console.log('Бюджет на день: ', budgetDay);
 console.log('Возможные расходы: ', addExpenses.toLocaleLowerCase().split(', '));
 console.log('Накопления за месяц: ', accumulatedMonth);
-console.log('Расходы за месяц: ', expensesMonth);
+console.log('Расходы за месяц: ', expensesAmount);
 console.log('Цель заработать ', mission, ' рублей будет достигнута через ', targetMonth, ' месяцев');
 
 // Проверка уровня доходов
