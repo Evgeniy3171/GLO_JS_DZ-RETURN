@@ -30,24 +30,6 @@ let money,
     expenses;
 
 // Проверка на число
-// 1-й вариант
-    /* let start = function(){
-    money = prompt("Ваш месячный доход?", "100000");
-
-    while (isNaN(money) || money.trim() === '' || money === null){
-        money = prompt("Ваш месячный доход?", "100000");
-    }
-}; */
-// Более лаконичный вариант
-/* let start = function(){
-    money = prompt("Ваш месячный доход?", "100000");
-
-    while (!isNumber(money){
-        money = prompt("Ваш месячный доход?", "100000");
-    }
-}; */
-
-// через цикл do while
 let start = function(){
     do {
         money = prompt("Ваш месячный доход?", "100000");
@@ -87,23 +69,6 @@ let getExpensesMonth = function(){
     console.log(expenses);
     return sum;
 };
-
-/* let getExpensesMonth = function(){
-    let sum = 0;
-    for (let i = 0; i < 2; i++){
-        if (i === 0) {
-            expenses1 = prompt("Введите обязательную статью расходов", "Оплата ЖКХ");
-        } else if (i === 1) {
-            expenses2 = prompt("Введите другую обязательную статью расходов", "Оплата ЖКХ");
-        }
-
-        sum += +prompt("Во сколько это обойдется?", "3000");
-    }
-    console.log(sum);
-    return sum;
-}; */
-
-
 
 let expensesAmount = getExpensesMonth();
 
