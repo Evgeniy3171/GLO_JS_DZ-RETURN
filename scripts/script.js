@@ -2,35 +2,17 @@
 
 /* 
 
-1) Объявить функцию getExpensesMonth. Функция возвращает сумму всех обязательных расходов за месяц
-
-2) Объявить функцию getAccumulatedMonth. Функция возвращает Накопления за месяц (Доходы минус расходы)
-
-3) Объявить переменную accumulatedMonth и присвоить ей результат вызова функции getAccumulatedMonth 
-
-4) Объявить функцию getTargetMonth. Подсчитывает за какой период будет достигнута цель, зная результат месячного накопления (accumulatedMonth) и возвращает результат
-
-5) Удалить из кода переменную budgetMonth
-
-6) budgetDay высчитываем исходя из значения месячного накопления (accumulatedMonth)
-
-7) Почистить консоль логи и добавить недостающие, должны остаться:
- - вызовы функции showTypeOf
- - Расходы за месяц вызов getExpensesMonth
- - Вывод возможных расходов в виде массива (addExpenses)
- - Cрок достижения цели в месяцах (результат вызова функции getTargetMonth) 
- - Бюджет на день (budgetDay)
- - вызов функции getStatusIncome
-
-8) Проверить, чтобы все работало и не было ошибок в консоли
-
-9) Добавить папку с четвертым уроком в свой репозиторий на GitHub
+1) Переписать функцию start циклом do while
+2) Добавить проверку что введённые данные являются числом, которые мы получаем на вопрос 'Во сколько это обойдется?’ в функции getExpensesMonth
+3) Если getTargetMonth возвращает нам отрицательное значение, то вместо “Цель будет достигнута” необходимо выводить “Цель не будет достигнута”
+4) Проверить, чтобы все работало и не было ошибок в консоли
+5) Добавить папку с уроком в свой репозиторий на GitHub
 
 */
 
 // Функция проверки на число
-let isNumber = function(){
-    return !isNaN(parseFloat(n)) && isFinite(n)
+let isNumber = function(n){
+    return !isNaN(parseFloat(n)) && isFinite(n) && n != '';
 };
 
 let money,
@@ -50,19 +32,27 @@ let money,
 // Проверка на число
 // 1-й вариант
     /* let start = function(){
-    money = +prompt("Ваш месячный доход?", "100000");
+    money = prompt("Ваш месячный доход?", "100000");
 
     while (isNaN(money) || money.trim() === '' || money === null){
         money = prompt("Ваш месячный доход?", "100000");
     }
 }; */
 // Более лаконичный вариант
-let start = function(){
+/* let start = function(){
     money = prompt("Ваш месячный доход?", "100000");
 
-    while (!isNaN(money)){
+    while (!isNumber(money){
         money = prompt("Ваш месячный доход?", "100000");
     }
+}; */
+
+// через цикл do while
+let start = function(){
+    do {
+        money = prompt("Ваш месячный доход?", "100000");
+    }
+    while (!isNumber(money));
 };
 
 start();
@@ -81,15 +71,19 @@ showTypeOf(income);
 showTypeOf(deposit);
 
 // Расходы за месяц
-
 expenses = [];
 
 let getExpensesMonth = function(){
-    let sum = 0;
+    let price, sum = 0;
     for (let i = 0; i < 2; i++){
         expenses[i] = prompt("Введите обязательную статью расходов", "Оплата ЖКХ");
-        sum += +prompt("Во сколько это обойдется?", "3000");
+        price = prompt("Во сколько это обойдется?", "3000");
+        while (!isNumber(price)){
+            price = prompt("Во сколько это обойдется?", "3000");
+        }
+        sum += Number(price);
     }
+    
     console.log(expenses);
     return sum;
 };
@@ -135,10 +129,14 @@ console.log('Бюджет на день: ', budgetDay);
 console.log('Возможные расходы: ', addExpenses.toLocaleLowerCase().split(', '));
 console.log('Накопления за месяц: ', accumulatedMonth);
 console.log('Расходы за месяц: ', expensesAmount);
-console.log('Цель заработать ', mission, ' рублей будет достигнута через ', targetMonth, ' месяцев');
+
+if (targetMonth > 0){
+    console.log('Цель заработать ', mission, ' рублей будет достигнута через ', targetMonth, ' месяцев');
+} else {
+    console.log('Цель не будет достигнута');
+}
 
 // Проверка уровня доходов
-
 let getStatusIncome = function(){
     statusIncome = (budgetDay >= 0 && budgetDay < 600) ? ('К сожалению у Вас уровень дохода ниже среднего.') : (budgetDay >= 600 && budgetDay < 1200) ? ('У Вас средний уровень дохода.') : (budgetDay >= 1200) ? ('У Вас высокий уровень дохода.') : ('Что-то пошло не так.');
     return statusIncome;
